@@ -1,4 +1,4 @@
-from lists.models import Item
+from lists.models import Item, List
 from django.shortcuts import render, redirect
 
 home_page = None
@@ -14,5 +14,7 @@ def view_list(req):
 
 
 def new_list(req):
-    Item.objects.create(text=req.POST['item_text'])
+    list_ = List.objects.create()
+    Item.objects.create(text=req.POST['item_text'],
+                        list=list_)
     return redirect('/lists/the-only-list/')
