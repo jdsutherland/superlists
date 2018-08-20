@@ -1,6 +1,7 @@
 import time
 import unittest
 
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -10,7 +11,7 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(chrome_options=chrome_options)
 
@@ -24,7 +25,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retreive_it_later(self):
         # visit homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         self.assertIn('To-Do', self.browser.title)
         self.assertIn('To-Do',
@@ -55,7 +56,3 @@ class NewVisitorTest(unittest.TestCase):
         # There is still a textbox inviting her to add another item.
         #   She enters 'Use peacock feathers to make fly'
         self.fail('Finish the test!')
-
-
-if __name__ == "__main__":
-    unittest.main(warnings='ignore')
