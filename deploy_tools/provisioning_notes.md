@@ -39,5 +39,6 @@ Assume we have a user account at /home/username
 ## restarting
 
     sudo systemctl daemon-reload
+    sudo systemctl reload nginx
     sudo systemctl enable gunicorn-superlists-staging.us
     sudo systemctl start gunicorn-superlists-staging.us.service
