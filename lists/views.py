@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.core.exceptions import ValidationError
 
 from lists.models import Item, List
 
@@ -11,8 +12,13 @@ def home_page(req):
 
 def new_list(req):
     list_ = List.objects.create()
-    Item.objects.create(text=req.POST['item_text'],
-                        list=list_)
+    item = Item.objects.create(text=req.POST['item_text'], list=list_)
+    try:
+        item.full_clean()
+        item.save()
+    except ValidationError as e:
+        list_.delete()
+        return render(req, 'home.html', {'error': e})
     return redirect(f'/lists/{list_.id}/')
 
 
