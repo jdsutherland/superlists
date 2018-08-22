@@ -4,18 +4,17 @@ from .base import FunctionalTest
 
 
 class ItemValidationTest(FunctionalTest):
-    def test_cannot_add_empty_item_list_items(self):
+    def test_cannot_add_empty_list_items(self):
         # Alice goes to the home page and accidentally tries to submit
         # an empty list item. She hits Enter on the empty input box
         self.browser.get(self.live_server_url)
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys(Keys.ENTER)
+        self.browser.find_element_by_id('id_new_item').send_keys(Keys.ENTER)
 
         # The home page refreshes, and there is an error message saying
         # that list items cannot be blank
         self.wait_for(lambda: self.assertEqual(
-            self.browser.find_element_by_css_selector('.has_error').text,
-            "This field cannot be blank"
+            self.browser.find_element_by_css_selector('.has-error').text,
+            "This field cannot be blank."
         ))
 
         # She tries again with some text for the item, which now works
@@ -29,7 +28,7 @@ class ItemValidationTest(FunctionalTest):
         # She receives a similar warning on the list page
         self.wait_for(lambda: self.assertEqual(
             self.browser.find_element_by_css_selector('.has-error').text,
-            "This field cannot be blank"
+            "This field cannot be blank."
         ))
 
         # And she can correct it by filling some text in

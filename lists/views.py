@@ -16,18 +16,24 @@ def new_list(req):
     try:
         item.full_clean()
         item.save()
-    except ValidationError as e:
+    except ValidationError:
         list_.delete()
-        return render(req, 'home.html', {'error': e})
+        error = "This field cannot be blank."
+        return render(req, 'home.html', {'error': error})
     return redirect(f'/lists/{list_.id}/')
 
 
 def view_list(req, list_id):
+    error = None
     list_ = List.objects.get(id=list_id)
 
     if req.method == 'POST':
-        list_ = List.objects.get(id=list_id)
-        Item.objects.create(text=req.POST['item_text'], list=list_)
-        return redirect(f'/lists/{list_.id}/')
+        try:
+            item = Item(text=req.POST['item_text'], list=list_)
+            item.full_clean()
+            item.save()
+            return redirect(f'/lists/{list_.id}/')
+        except ValidationError as e:
+            error = "This field cannot be blank."
 
-    return render(req, 'list.html', {'list': list_})
+    return render(req, 'list.html', {'list': list_, 'error': error})
