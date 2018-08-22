@@ -20,7 +20,7 @@ def new_list(req):
         list_.delete()
         error = "This field cannot be blank."
         return render(req, 'home.html', {'error': error})
-    return redirect(f'/lists/{list_.id}/')
+    return redirect(list_)
 
 
 def view_list(req, list_id):
@@ -32,7 +32,7 @@ def view_list(req, list_id):
             item = Item(text=req.POST['item_text'], list=list_)
             item.full_clean()
             item.save()
-            return redirect(f'/lists/{list_.id}/')
+            return redirect(list_)
         except ValidationError as e:
             error = "This field cannot be blank."
 
