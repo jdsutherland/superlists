@@ -1,4 +1,4 @@
-from .base import FunctionalTest
+from .base import FunctionalTest, CHROME_OPTIONS
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -49,7 +49,7 @@ class NewVisitorTest(FunctionalTest):
         ## We use a new browser session to make sure that no information
         ## of Alice's is coming through from cookies etc
         self.browser.quit()
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Chrome(chrome_options=CHROME_OPTIONS)
 
         # Bob visits the home page.  There is no sign of Alice's
         # list
