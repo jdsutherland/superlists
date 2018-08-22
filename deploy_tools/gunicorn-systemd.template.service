@@ -5,7 +5,7 @@ Description=Gunicorn server for superlists-staging.us
 Restart=on-failure
 User=jeff
 WorkingDirectory=/home/jeff/sites/superlists-staging.us/source
-ExecStart=/home/elspeth/sites/superlists-staging.us/virtualenv/bin/gunicorn \
+ExecStart=/home/jeff/sites/superlists-staging.us/virtualenv/bin/gunicorn \
     --bind unix:/tmp/superlists-staging.us.socket \
     superlists.wsgi:application
 
