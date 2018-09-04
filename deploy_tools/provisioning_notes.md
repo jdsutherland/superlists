@@ -42,6 +42,7 @@ Assume we have a user account at /home/username
     sudo systemctl reload nginx
     sudo systemctl enable gunicorn-superlists-staging.us
     sudo systemctl start gunicorn-superlists-staging.us.service
+    sudo systemctl restart gunicorn-superlists-staging.us
 
 sed "s/SITENAME/superlists-staging.us/g" source/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/superlists-staging.us
 
