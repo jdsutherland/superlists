@@ -3,10 +3,8 @@ from unittest import skip
 from django.test import TestCase
 from django.utils.html import escape
 
-from lists.forms import ItemForm,\
-    ExistingListItemForm,\
-    EMPTY_ITEM_ERROR,\
-    DUPLICATE_ITEM_ERROR
+from lists.forms import (DUPLICATE_ITEM_ERROR, EMPTY_ITEM_ERROR,
+                         ExistingListItemForm, ItemForm)
 from lists.models import Item, List
 
 
@@ -143,3 +141,10 @@ class ListViewTest(TestCase):
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'list.html')
         self.assertEqual(Item.objects.all().count(), 1)
+
+
+class MyListsTest(TestCase):
+    def test_my_lists_url_renders_my_lists_template(self):
+        response = self.client.get('/lists/users/a@b.com/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'my_lists.html')

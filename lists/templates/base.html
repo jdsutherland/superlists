@@ -15,9 +15,12 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Superlists</a>
           {% if user.email %}
-            <ul class="navbar navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="{% url 'my_lists' user.email %}">My lists</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
               <li class='navbar-text'>Logged in as: {{ user.email }}</li>
-              <li class='navbar-text'><a href="{% url 'logout' %}">Log out</a></li>
+              <li><a href="{% url 'logout' %}">Log out</a></li>
             </ul>
           {% else %}
             <form method='POST' class="form-inline navbar-form pull-right" action="{% url 'send_login_email' %}">
@@ -50,18 +53,18 @@
       <div class="row">
         <div class="jumbotron col-md-6 col-md-offset-3">
           <div class="text-center">
-            <h1>
-              {% block header_text %}{% endblock %}
-            </h1>
-            <form method="POST" action='{% block form_action %}{% endblock %}' accept-charset="utf-8">
-              {{ form.text }}
-              {% csrf_token %}
-              {% if form.errors %}
-                <div class="form-group has-error">
-                  <span class="help-block">{{ form.text.errors }}</span>
-                </div>
-              {% endif %}
-            </form>
+            <h1> {% block header_text %}{% endblock %} </h1>
+            {% block list_form %}
+              <form method="POST" action='{% block form_action %}{% endblock %}' accept-charset="utf-8">
+                {{ form.text }}
+                {% csrf_token %}
+                {% if form.errors %}
+                  <div class="form-group has-error">
+                    <span class="help-block">{{ form.text.errors }}</span>
+                  </div>
+                {% endif %}
+              </form>
+            {% endblock list_form %}
           </div>
         </div>
       </div>
@@ -73,6 +76,12 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          {% block extra_content %}
+          {% endblock %}
+        </div>
+      </div>
     </div>
   </body>
 </html>

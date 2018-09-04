@@ -30,3 +30,7 @@ def view_list(req, list_id):
             form.save()
             return redirect(list_)
     return render(req, 'list.html', {'list': list_, 'form': form})
+
+
+def my_lists(req, email):
+    return render(req, 'my_lists.html')
