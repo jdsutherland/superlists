@@ -45,4 +45,6 @@ Assume we have a user account at /home/username
 
 sed "s/SITENAME/superlists-staging.us/g" source/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/superlists-staging.us
 
-
+## testing staging server (from local)
+> TODO: move to main README
+STAGING_SERVER=superlists-staging.us python manage.py test functional_tests
