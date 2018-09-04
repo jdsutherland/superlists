@@ -1,5 +1,4 @@
 from unittest import skip
-from unittest.mock import call, patch
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -54,28 +53,18 @@ class NewListTest(TestCase):
         self.assertEqual(Item.objects.count(), 0)
         self.assertEqual(List.objects.count(), 0)
 
-    @patch('lists.views.List')
-    @patch('lists.views.ItemForm')
-    def test_list_owner_is_saved_if_user_is_authenticated(self,
-                                                          mockItemFormClass,
-                                                          mockListClass):
+    def test_list_owner_is_saved_if_user_is_authenticated(self):
         user = User.objects.create(email='a@b.com')
         self.client.force_login(user)
-        mock_list = mockListClass.return_value
-
-        def check_owner_assigned():
-            self.assertEqual(mock_list.owner, user)
-        mock_list.save.side_effect = check_owner_assigned
-
         self.client.post('/lists/new', data={'text': 'A new list item'})
+        list_ = List.objects.first()
 
-        mock_list.save.assert_called_once_with()
+        self.assertEqual(list_.owner, user)
 
 
 class ListViewTest(TestCase):
     def post_invalid_input(self):
         list_ = List.objects.create()
-
         return self.client.post(f'/lists/{list_.id}/', data={'text': ''})
 
     def test_uses_list_template(self):
