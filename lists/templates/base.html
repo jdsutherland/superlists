@@ -11,13 +11,14 @@
   <body>
     <div class="container">
 
-      <nav class="navbar navbar-light bg-faded">
+      <nav class="navbar navbar-default">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Superlists</a>
           {% if user.email %}
-            <ul class="navbar navbar-nav navbar-right"></ul>
-            <li class='navbar-text'>Logged in as: {{ user.email }}</li>
-            <li><a href="{% url 'logout' %}">Log out</a></li>
+            <ul class="navbar navbar-nav navbar-right">
+              <li class='navbar-text'>Logged in as: {{ user.email }}</li>
+              <li class='navbar-text'><a href="{% url 'logout' %}">Log out</a></li>
+            </ul>
           {% else %}
             <form method='POST' class="form-inline navbar-form pull-right" action="{% url 'send_login_email' %}">
               <span>Enter email to log in: </span>
