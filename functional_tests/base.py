@@ -1,11 +1,13 @@
-import time
 import os
+import time
 
-from .server_tools import reset_database
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+
+from .server_tools import reset_database
 
 CHROME_OPTIONS = Options()
 CHROME_OPTIONS.add_argument("--headless")
@@ -66,3 +68,10 @@ class FunctionalTest(StaticLiveServerTestCase):
             'email')  # unused but errors if element DNE
         navbar = self.browser.find_element_by_css_selector('.navbar')
         self.assertNotIn(email, navbar.text)
+
+    def add_list_item(self, item_text):
+        num_rows = len(self.browser.find_elements_by_css_selector('#id_list_table tr'))
+        self.get_item_input_box().send_keys(item_text)
+        self.get_item_input_box().send_keys(Keys.ENTER)
+        item_number = num_rows + 1
+        self.wait_for_row_in_list_table(f'{item_number}: {item_text}')
