@@ -1,8 +1,9 @@
-from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
 
 from lists.forms import ItemForm, ExistingListItemForm
-from lists.models import Item, List
+from lists.models import List
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 home_page = None
 
@@ -32,5 +33,6 @@ def view_list(req, list_id):
     return render(req, 'list.html', {'list': list_, 'form': form})
 
 
-def my_lists(req, email):
-    return render(req, 'my_lists.html')
+def my_lists(request, email):
+    owner = User.objects.get(email=email)
+    return render(request, 'my_lists.html', {'owner': owner})
