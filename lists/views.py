@@ -15,7 +15,9 @@ def home_page(req):
 def new_list(req):
     form = ItemForm(data=req.POST)
     if form.is_valid():
-        list_ = List.objects.create()
+        list_ = List()
+        list_.owner = req.user
+        list_.save()
         form.save(for_list=list_)
         return redirect(list_)
     else:

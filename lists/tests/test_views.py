@@ -53,6 +53,14 @@ class NewListTest(TestCase):
         self.assertEqual(Item.objects.count(), 0)
         self.assertEqual(List.objects.count(), 0)
 
+    def test_list_owner_is_saved_if_user_is_authenticated(self):
+        user = User.objects.create(email='a@b.com')
+        self.client.force_login(user)
+        self.client.post('/lists/new', data={'text': 'A new list item'})
+        list_ = List.objects.first()
+
+        self.assertEqual(list_.owner, user)
+
 
 class ListViewTest(TestCase):
     def post_invalid_input(self):
