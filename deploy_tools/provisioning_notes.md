@@ -40,12 +40,18 @@ Assume we have a user account at /home/username
 
     sudo systemctl daemon-reload
     sudo systemctl reload nginx
-    sudo systemctl enable gunicorn-superlists-staging.us
-    sudo systemctl start gunicorn-superlists-staging.us.service
-    sudo systemctl restart gunicorn-superlists-staging.us
+    sudo systemctl enable gunicorn-SITENAME
+    sudo systemctl start gunicorn-SITENAME.service
+    sudo systemctl restart gunicorn-SITENAME
 
-sed "s/SITENAME/superlists-staging.us/g" source/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/superlists-staging.us
+sed "s/SITENAME/SITENAME/g" source/deploy_tools/nginx.template.conf | sudo tee /etc/nginx/sites-available/SITENAME
+
+## Systemd service
+
+* see gunicorn-systemd.template.service
+* replace SITENAME with, e.g., staging.my-domain.com
+* replace TODO with email user/password
 
 ## testing staging server (from local)
 > TODO: move to main README
-STAGING_SERVER=superlists-staging.us python manage.py test functional_tests
+STAGING_SERVER=SITENAME python manage.py test functional_tests

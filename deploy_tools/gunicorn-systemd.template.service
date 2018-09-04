@@ -1,13 +1,17 @@
 [Unit]
-Description=Gunicorn server for superlists-staging.us
+Description=Gunicorn server for SITENAME
 
 [Service]
 Restart=on-failure
 User=jeff
-WorkingDirectory=/home/jeff/sites/superlists-staging.us/source
-ExecStart=/home/jeff/sites/superlists-staging.us/virtualenv/bin/gunicorn \
-    --bind unix:/tmp/superlists-staging.us.socket \
-    superlists.wsgi:application
+Environment=EMAIL_USER=TODO EMAIL_PASSWORD=TODO
+WorkingDirectory=/home/jeff/sites/SITENAME/source
+ExecStart=/home/jeff/sites/SITENAME/virtualenv/bin/gunicorn \
+        --bind unix:/tmp/SITENAME.socket \
+        --capture-output \
+        --access-logfile ../access.log \
+        --error-logfile ../error.log \
+        superlists.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
