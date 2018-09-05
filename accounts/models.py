@@ -24,10 +24,3 @@ class User(models.Model):
 class Token(models.Model):
     email = models.EmailField(max_length=75, blank=True)
     uid = models.CharField(default=uuid.uuid4, max_length=40)
-
-    class Meta:
-        verbose_name = "Token"
-        verbose_name_plural = "Tokens"
-
-    def __str__(self):
-        return f'{self.email}: {self.uid}'
