@@ -12,20 +12,7 @@ def home_page(req):
     return render(req, 'home.html', {'form': ItemForm()})
 
 
-def new_list(req):
-    form = ItemForm(data=req.POST)
-    if form.is_valid():
-        list_ = List()
-        if req.user.is_authenticated:
-            list_.owner = req.user
-        list_.save()
-        form.save(for_list=list_)
-        return redirect(list_)
-    else:
-        return render(req, 'home.html', {'form': form})
-
-
-def new_list2(request):
+def new_list(request):
     form = NewListForm(data=request.POST)
     if form.is_valid():
         list_ = form.save(owner=request.user)
