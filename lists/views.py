@@ -32,7 +32,6 @@ def new_list2(request):
     return render(request, 'home.html', {'form': form})
 
 
-
 def view_list(req, list_id):
     list_ = List.objects.get(id=list_id)
     form = ExistingListItemForm(for_list=list_)
