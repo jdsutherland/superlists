@@ -16,7 +16,8 @@ def new_list(req):
     form = ItemForm(data=req.POST)
     if form.is_valid():
         list_ = List()
-        list_.owner = req.user
+        if req.user.is_authenticated:
+            list_.owner = req.user
         list_.save()
         form.save(for_list=list_)
         return redirect(list_)
